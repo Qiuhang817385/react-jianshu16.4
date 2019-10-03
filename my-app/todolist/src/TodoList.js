@@ -9,6 +9,7 @@ import React, { Component, Fragment } from 'react';
 
 import './style.css';
 
+import TodoItem from './TodoItem'
 class TodoList extends Component {
   constructor(props) {
     super(props);
@@ -19,7 +20,8 @@ class TodoList extends Component {
       // 原生是onchange事件监听数据改变,react里面是事件钩子
       // onChange
       list: []
-    }
+    };
+    this.handleButtonDelete = this.handleButtonDelete.bind(this)
   }
   render() {
     return (<Fragment>
@@ -35,19 +37,26 @@ class TodoList extends Component {
           this.state.list.map((item, index) => {
             // return <li key={index} onClick={this.handleButtonDelete.bind(this)}>{item}</li>
             // 怎么加参数,在bind后面传递
-            return <li key={index} onClick={this.handleButtonDelete.bind(this, index)}>
+            return (
+              <li key={index}>
+                <TodoItem
+                  content={item}
+                  index={index}
+                  handleButtonDelete={this.handleButtonDelete}
+                ></TodoItem>
+                {/*  <li key={index} onClick={this.handleButtonDelete.bind(this, index)}>
               {item}
-            </li>
+            </li> */}
+              </li>
+            )
           })
         }
-
       </ul>
     </Fragment>
     );
   }
   // 这里可以接收到index
   handleButtonDelete(index) {
-    // alert('1')
     // alert(event.target.index);
     // alert(index);
     const list = [...this.state.list];
