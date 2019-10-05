@@ -6,7 +6,7 @@ function TodoList(){
 export default TodoList; */
 // 两种方式
 import React, { Component, Fragment } from 'react';
-
+import axios from 'axios';
 import TodoItem from './TodoItem'
 
 import './style.css';
@@ -24,7 +24,9 @@ class TodoList extends Component {
     this.handleButtonDelete = this.handleButtonDelete.bind(this)
   }
   componentDidMount(){
-    
+    axios.get('/api/todolist')
+    .then(()=>{alert('succ')})
+    .catch(()=>{alert('err')})
   }
   render() {
     return (<Fragment>

@@ -1,0 +1,36 @@
+/* show的值从false变成true,执行入场动画的时候
+
+执行的第一个时刻,挂载第一个样式enter
+还没有入场
+
+
+active入场执行第二个时刻到入场动画执行完之前
+动画执行完之前,一直存在
+
+*/
+.test-enter,.test-appear{
+opacity: 0;
+}
+.test-enter-active,.test-appear-active{
+    opacity: 1;
+    transition: opacity 1s ease-in
+}
+.test-enter-done{
+    opacity: 1;
+    /* color: red; */
+}
+
+
+/* 出场动画 */
+.test-exit{
+    opacity: 1;
+}
+.test-exit-active{
+    opacity: 0;
+    transition: opacity 1s ease-in
+}
+.test-exit-done{
+    opacity: 0;
+}
+
+
