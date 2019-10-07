@@ -4,6 +4,7 @@ import { Input } from 'antd';
 import { Button } from 'antd';
 import { List } from 'antd';
 import store from './store/index';
+import {CHANGE_INPUT_VALUE,DEL_TODO_ITEM,ADD_TODO_ITEM} from './store/actionTypes'
 
 // const data = [];
 class TodoListAntd extends Component {
@@ -58,7 +59,7 @@ class TodoListAntd extends Component {
     handleDelList(index) {
 
         const action = {
-            type: 'del_todo_item',
+            type: DEL_TODO_ITEM,
             index: index
         }
         store.dispatch(action);
@@ -66,7 +67,7 @@ class TodoListAntd extends Component {
     handleAddToList() {
         // 先创建action
         const action = {
-            type: 'add_todo_item'
+            type: ADD_TODO_ITEM
         }
         store.dispatch(action);
     }
@@ -85,7 +86,7 @@ class TodoListAntd extends Component {
         const tagValue = e.target.value;
         const action = {
             // type是描述的话
-            type: 'change_input_value',
+            type: CHANGE_INPUT_VALUE,
             // 下面名字随便起,value1
             value: tagValue
         }
