@@ -1,33 +1,55 @@
-import React ,{Component}from 'react';
+import React, { Component } from 'react';
 import { connect } from 'react-redux';
-import { HeaderWrapper,SearchInfoList,SearchInfoItem,SearchInfoSwitch, Logo, Nav, NavItem, NavSearch, Addition, Button, SearchWrapper,SearchInfoTitle ,SearchInfo} from './style';
+import { HeaderWrapper, SearchInfoList, SearchInfoItem, SearchInfoSwitch, Logo, Nav, NavItem, NavSearch, Addition, Button, SearchWrapper, SearchInfoTitle, SearchInfo } from './style';
 import { CSSTransition } from 'react-transition-group';
-import {actionCreators} from './store';
+import { actionCreators } from './store';
 
-const getListArea = (show)=>{
-    if(show){
-        return  (
-            <SearchInfo>
-                        <SearchInfoTitle>热门搜索
-                            <SearchInfoSwitch>换一换</SearchInfoSwitch>
-                        </SearchInfoTitle>
-                        <SearchInfoList>
-                            <SearchInfoItem>热门</SearchInfoItem>
-                            <SearchInfoItem>热门</SearchInfoItem>
-                            <SearchInfoItem>热门</SearchInfoItem>
-                            <SearchInfoItem>热门</SearchInfoItem>
-                            <SearchInfoItem>热门</SearchInfoItem>
-                            <SearchInfoItem>热门</SearchInfoItem>
-                        </SearchInfoList>
-                    </SearchInfo>
-        )
+class Header extends Component {
+    getListArea() {
+        const { focused, page, totalpageIndex, list, mouseIn, handleMouseEnter, handleMouseLeave, handleChangePage } = this.props;
 
-    }else{
-        return null;
+        // 把list转换成普通数组
+        const newList = list.toJS();
+        const listShow = [];
+        if (newList.length) {
+            for (let i = (page - 1) * 10; i < (page) * 10; i++) {
+                listShow.push(
+                    // 还能push这个???厉害了
+                    <SearchInfoItem key={newList[i]}>{newList[i]}</SearchInfoItem>
+                )
+            }
+        }
+
+        if (focused || mouseIn) {
+            return (
+                <SearchInfo
+                    onMouseEnter={handleMouseEnter}
+                    onMouseLeave={handleMouseLeave}
+                >
+                    <SearchInfoTitle>热门搜索
+                                <SearchInfoSwitch
+                            onClick={
+                                () => {
+                                    handleChangePage(page, totalpageIndex); console.log(page, totalpageIndex);
+                                }
+                            }
+                        >换一换</SearchInfoSwitch>
+                    </SearchInfoTitle>
+                    <SearchInfoList>
+                        {
+                            listShow
+                        }
+                    </SearchInfoList>
+                </SearchInfo>
+            )
+
+        } else {
+            return null;
+        }
     }
-}
-class Header extends Component{
-    render(){
+
+    render() {
+        const { focused, handleFocus, handleBlur } = this.props;
         return (
             <HeaderWrapper>
                 {/* <Logo href="/" /> */}
@@ -41,18 +63,19 @@ class Header extends Component{
                     </NavItem>
                     <SearchWrapper>
                         <CSSTransition
-                            in={this.props.focused}
+                            in={focused}
                             timeout={200}
                             classNames="slide"
                         >
                             <NavSearch
-                                className={this.props.focused ? 'focused' : ''}
-                                onFocus={this.props.handleFocus}
-                                onBlur={this.props.handleBlur}
+                                className={focused ? 'focused' : ''}
+                                onFocus={handleFocus}
+                                onBlur={handleBlur}
                             ></NavSearch>
                         </CSSTransition>
-                        <span className={this.props.focused ? 'focused iconfont' : 'iconfont'}>&#xe60c;</span>
-                       {getListArea(this.props.focused)}
+                        <span className={focused ? 'focused iconfont' : 'iconfont'}>&#xe60c;</span>
+
+                        {this.getListArea()}
                     </SearchWrapper>
                 </Nav>
                 <Addition>
@@ -66,12 +89,15 @@ class Header extends Component{
         )
     }
 }
-
-
-
 const mapStateToProps = (state) => {
     return {
-        focused: state.get('header').get('focused')
+        focused: state.get('header').get('focused'),
+        list: state.get('header').get('list'),
+        // page: state.get('header').get('page'),
+        page: state.getIn(['header', 'page']),
+        // totalpage1: state.get('header').get('totalpage1'),
+        totalpageIndex: state.getIn(['header', 'pageTotal']),
+        mouseIn: state.get('header').get('mouseIn'),
     }
 }
 const mapDispatchToprops = (dispatch) => {
@@ -79,11 +105,28 @@ const mapDispatchToprops = (dispatch) => {
         handleFocus() {
             // const action = actionCreators.handleFocusAction();
             // dispatch(action);
+            dispatch(actionCreators.getListAction());
             dispatch(actionCreators.handleFocusAction());
         },
         handleBlur() {
             const action = actionCreators.handleBlurAction();
             dispatch(action);
+        },
+        handleMouseEnter() {
+            dispatch(actionCreators.handleMouseEnterAction())
+        },
+        handleMouseLeave() {
+            dispatch(actionCreators.handleMouseLeaveAction())
+        },
+        handleChangePage(page, totalpage) {
+            console.log(totalpage);//undefined
+            if (page < totalpage) {
+                let pasem = page + 1;
+                console.log(pasem);
+                dispatch(actionCreators.handleChangePageAction(pasem));
+            } else {
+                dispatch(actionCreators.handleChangePageAction(1))
+            }
         }
     }
 }
