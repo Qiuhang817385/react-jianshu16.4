@@ -113,7 +113,7 @@ export const SearchWrapper = styled.div`
         height:58px;
         position:relative;
        
-        .iconfont{
+        .zoom{
             width:30px;
             height:30px;
             position:absolute;
@@ -138,7 +138,7 @@ export const SearchInfo = styled.div`
         width:240px;
         // height:200px;
         padding:0 20px;
-        // background:green;
+        background:#fff;
         box-shadow:0 0 8px rgba(0,0,0,0.2)
     `
 export const SearchInfoTitle = styled.div`
@@ -148,9 +148,22 @@ export const SearchInfoTitle = styled.div`
         font-size:15px;
         color:#969696;
     `
+    // 注意位置和目录位置
+
 export const SearchInfoSwitch = styled.span`
         float:right;
         font-size:13px;
+        cursor:pointer;
+        // SearchInfoSwitch的子元素是span span有一个class是spin
+        .spin{
+            display:block;
+            float:left;
+            font-size:12px;
+            margin-right:10px;
+            transition:all .2s ease-in;
+            transform:rotate(0deg);
+            transform-origin:center center;
+        }
     `
 export const SearchInfoItem = styled.a`
         display:block;

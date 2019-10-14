@@ -6,6 +6,13 @@
   "description": "简书",
   "glyphs": [
     {
+      "icon_id": "432021",
+      "name": "spinner9",
+      "font_class": "spinner9",
+      "unicode": "e7e9",
+      "unicode_decimal": 59369
+    },
+    {
       "icon_id": "1621077",
       "name": "Aa",
       "font_class": "Aa",

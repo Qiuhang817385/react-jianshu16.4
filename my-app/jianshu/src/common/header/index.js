@@ -30,10 +30,12 @@ class Header extends Component {
                                 <SearchInfoSwitch
                             onClick={
                                 () => {
-                                    handleChangePage(page, totalpageIndex); console.log(page, totalpageIndex);
+                                    handleChangePage(page, totalpageIndex,this.spinIcon); console.log(page, totalpageIndex);
                                 }
                             }
-                        >换一换</SearchInfoSwitch>
+                        >
+                            <span className="icon iconfont spin" ref={(icon)=>{this.spinIcon = icon}}>&#xe7e9;</span>
+                            换一换</SearchInfoSwitch>
                     </SearchInfoTitle>
                     <SearchInfoList>
                         {
@@ -49,7 +51,7 @@ class Header extends Component {
     }
 
     render() {
-        const { focused, handleFocus, handleBlur } = this.props;
+        const { focused, handleFocus, handleBlur,list } = this.props;
         return (
             <HeaderWrapper>
                 {/* <Logo href="/" /> */}
@@ -69,11 +71,11 @@ class Header extends Component {
                         >
                             <NavSearch
                                 className={focused ? 'focused' : ''}
-                                onFocus={handleFocus}
+                                onFocus={()=>handleFocus(list)}
                                 onBlur={handleBlur}
                             ></NavSearch>
                         </CSSTransition>
-                        <span className={focused ? 'focused iconfont' : 'iconfont'}>&#xe60c;</span>
+                        <span className={focused ? 'focused iconfont zoom' : 'iconfont zoom'}>&#xe60c;</span>
 
                         {this.getListArea()}
                     </SearchWrapper>
@@ -102,10 +104,14 @@ const mapStateToProps = (state) => {
 }
 const mapDispatchToprops = (dispatch) => {
     return {
-        handleFocus() {
+        handleFocus(list) {
+            if(list.size===0){
+                dispatch(actionCreators.getListAction());
+            }
+            // list.size===0 && dispatch(actionCreators.getListAction());
             // const action = actionCreators.handleFocusAction();
             // dispatch(action);
-            dispatch(actionCreators.getListAction());
+          
             dispatch(actionCreators.handleFocusAction());
         },
         handleBlur() {
@@ -118,7 +124,16 @@ const mapDispatchToprops = (dispatch) => {
         handleMouseLeave() {
             dispatch(actionCreators.handleMouseLeaveAction())
         },
-        handleChangePage(page, totalpage) {
+        handleChangePage(page, totalpage,spin) {
+
+            let originAngle = spin.style.transform.replace(/[^0-9]/ig,'')
+            if(originAngle){
+                originAngle = parseInt(originAngle,10);
+            }else{
+                originAngle=0;
+            }
+            spin.style.transform = `rotate(${originAngle+360}deg)`;
+            
             console.log(totalpage);//undefined
             if (page < totalpage) {
                 let pasem = page + 1;
