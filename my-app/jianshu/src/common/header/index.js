@@ -2,7 +2,10 @@ import React, { Component } from 'react';
 import { connect } from 'react-redux';
 import { HeaderWrapper, SearchInfoList, SearchInfoItem, SearchInfoSwitch, Logo, Nav, NavItem, NavSearch, Addition, Button, SearchWrapper, SearchInfoTitle, SearchInfo } from './style';
 import { CSSTransition } from 'react-transition-group';
+import { actionCreator as loginActionCreators } from '../../pages/login/store/index';
 import { actionCreators } from './store';
+import { Link } from 'react-router-dom';
+
 
 class Header extends Component {
     getListArea() {
@@ -30,11 +33,11 @@ class Header extends Component {
                                 <SearchInfoSwitch
                             onClick={
                                 () => {
-                                    handleChangePage(page, totalpageIndex,this.spinIcon); console.log(page, totalpageIndex);
+                                    handleChangePage(page, totalpageIndex, this.spinIcon); console.log(page, totalpageIndex);
                                 }
                             }
                         >
-                            <span className="icon iconfont spin" ref={(icon)=>{this.spinIcon = icon}}>&#xe7e9;</span>
+                            <span className="icon iconfont spin" ref={(icon) => { this.spinIcon = icon }}>&#xe7e9;</span>
                             换一换</SearchInfoSwitch>
                     </SearchInfoTitle>
                     <SearchInfoList>
@@ -51,15 +54,23 @@ class Header extends Component {
     }
 
     render() {
-        const { focused, handleFocus, handleBlur,list } = this.props;
+        const { focused, handleFocus, handleBlur, list } = this.props;
         return (
             <HeaderWrapper>
                 {/* <Logo href="/" /> */}
                 <Logo />
                 <Nav>
-                    <NavItem className='left active'>首页</NavItem>
+                    <Link to="/">
+                        <NavItem className='left active'>首页</NavItem>
+                    </Link>
                     <NavItem className='left'>下载App</NavItem>
-                    <NavItem className='right'>登录</NavItem>
+                    {
+                        this.props.login ?
+                            <NavItem className='right' onClick={this.props.logout}>退出</NavItem> :
+                            <Link to='/Login'>
+                                <NavItem className='right'>登陆</NavItem>
+                            </Link>
+                    }
                     <NavItem className='right'>
                         <span className="iconfont">&#xe636;</span>
                     </NavItem>
@@ -71,7 +82,7 @@ class Header extends Component {
                         >
                             <NavSearch
                                 className={focused ? 'focused' : ''}
-                                onFocus={()=>handleFocus(list)}
+                                onFocus={() => handleFocus(list)}
                                 onBlur={handleBlur}
                             ></NavSearch>
                         </CSSTransition>
@@ -81,10 +92,12 @@ class Header extends Component {
                     </SearchWrapper>
                 </Nav>
                 <Addition>
-                    <Button className='written'>
-                        <span className="iconfont">&#xe626;</span>
-                        写文章
-                </Button>
+                    <Link to="/write">
+                        <Button className='written'>
+                            <span className="iconfont">&#xe626;</span>
+                            写文章
+                        </Button>
+                    </Link>
                     <Button className='reg'>注册</Button>
                 </Addition>
             </HeaderWrapper>
@@ -100,18 +113,19 @@ const mapStateToProps = (state) => {
         // totalpage1: state.get('header').get('totalpage1'),
         totalpageIndex: state.getIn(['header', 'pageTotal']),
         mouseIn: state.get('header').get('mouseIn'),
+        login: state.get('login').get('login')
     }
 }
 const mapDispatchToprops = (dispatch) => {
     return {
         handleFocus(list) {
-            if(list.size===0){
+            if (list.size === 0) {
                 dispatch(actionCreators.getListAction());
             }
             // list.size===0 && dispatch(actionCreators.getListAction());
             // const action = actionCreators.handleFocusAction();
             // dispatch(action);
-          
+
             dispatch(actionCreators.handleFocusAction());
         },
         handleBlur() {
@@ -124,16 +138,16 @@ const mapDispatchToprops = (dispatch) => {
         handleMouseLeave() {
             dispatch(actionCreators.handleMouseLeaveAction())
         },
-        handleChangePage(page, totalpage,spin) {
+        handleChangePage(page, totalpage, spin) {
 
-            let originAngle = spin.style.transform.replace(/[^0-9]/ig,'')
-            if(originAngle){
-                originAngle = parseInt(originAngle,10);
-            }else{
-                originAngle=0;
+            let originAngle = spin.style.transform.replace(/[^0-9]/ig, '')
+            if (originAngle) {
+                originAngle = parseInt(originAngle, 10);
+            } else {
+                originAngle = 0;
             }
-            spin.style.transform = `rotate(${originAngle+360}deg)`;
-            
+            spin.style.transform = `rotate(${originAngle + 360}deg)`;
+
             console.log(totalpage);//undefined
             if (page < totalpage) {
                 let pasem = page + 1;
@@ -142,6 +156,9 @@ const mapDispatchToprops = (dispatch) => {
             } else {
                 dispatch(actionCreators.handleChangePageAction(1))
             }
+        },
+        logout() {
+            dispatch(loginActionCreators.logoutAction());
         }
     }
 }

@@ -3,6 +3,7 @@ import logoPic from '../../statics/logo.png';
 export const HeaderWrapper = styled.div`
             height:58px;
             border-bottom:1px solid #f0f0f0;
+            z-index:10;
             `;
 export const Logo = styled.a.attrs({
     href: '/'
@@ -51,7 +52,7 @@ export const NavSearch = styled.input.attrs({
     // position:absolute;
     // top:50%;
     // margin-top:-19px;
-
+   
     margin-left:20px;
     padding:0 40px 0  20px;
     box-sizing:border-box;
@@ -132,6 +133,7 @@ export const SearchWrapper = styled.div`
 
 // 搜索下拉
 export const SearchInfo = styled.div`
+        z-index:10;
         position:absolute;
         left:0;
         top:59px;

@@ -1,6 +1,6 @@
-import React, { Component, Fragment } from 'react';
+import React, { PureComponent, Fragment } from 'react';
 import { WriterWrapper } from '../style';
-class Writer extends Component {
+class Writer extends PureComponent {
     render() {
         return (
             <Fragment>
