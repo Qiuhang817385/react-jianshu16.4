@@ -1,0 +1,38 @@
+<template name="Component-name">
+    <div>
+        <p>{this.state.title}</p>
+        <div className="div1">你好
+            <div className="div2">Hello</div>
+        </div>
+    </div>
+</template>
+<script>
+    export default class {
+        constructor(props) {
+            super(props)
+            this.state = {
+                title: "react"
+            }
+        }
+        componentDidMount() {
+            console.log('生命周期')
+        }
+    }
+</script>
+<style lang="scss">
+    p {
+        color: #58bc58
+    };
+
+    div {
+        /* width: 100px; */
+        height: 100px;
+        background: #12d3ec;
+    }
+    /* $height: 50px;
+        $color: #07c160;
+        header {
+        height: $height;
+        background-color: $color;
+        } */
+</style>
