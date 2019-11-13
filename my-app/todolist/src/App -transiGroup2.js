@@ -24,7 +24,6 @@ class App extends Component {
 
                 <CSSTransition
                   // 入场动画样式,感知当前状态
-                 
                   timeout={1000}
                   classNames='test'
                   unmountOnExit

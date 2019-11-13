@@ -17,7 +17,7 @@ function App() {
       <Provider store={store}>
         <BrowserRouter>
           <div>
-        <Header></Header>
+            <Header></Header>
             <Route path='/' exact render={() => <Home></Home>}></Route>
             <Route path='/Login' exact render={() => <Login></Login>}></Route>
             <Route path='/Write' exact render={() => <Write></Write>}></Route>
