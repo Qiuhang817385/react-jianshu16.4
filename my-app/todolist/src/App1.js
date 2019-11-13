@@ -19,8 +19,16 @@ class App extends /React./Component{
 
 
   解构赋值
-  let obj  = { p : ['hello'],{y:'world}}
-  let {p:[x,{y}]} = obj
+ {/* 
+                结构赋值
+                    let obj = {
+                        p:[
+                            'hello',
+                            {y:'world'}
+                        ]
+                    }
+                    let {p,p:[x1,{x2}]} = obj
+                 */}
 
   x:hello
   y:world

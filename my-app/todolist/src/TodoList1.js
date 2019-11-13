@@ -3,17 +3,27 @@ import TodoItem1 from './TodoItem1';
 class TodoList extends Component {
   constructor(props) {
     super(props);
+	
+	
     this.state = {
       inputValue: '',
       list: []
     };
+	
+	
     this.inputOnchange = this.inputOnchange.bind(this);
     this.btnSub = this.btnSub.bind(this);
     // 记得传递给子组件的时候绑定this
     this.listDel = this.listDel.bind(this);
   }
+  
+  
+  
+  
   render() {
     const { inputValue } = this.state;
+	
+	
     return (<Fragment>
       <div>
         <input type="text" value={inputValue} onChange={this.inputOnchange}></input>
