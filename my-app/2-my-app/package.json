@@ -32,7 +32,9 @@
     ]
   },
   "devDependencies": {
+    "immutable": "^4.0.0-rc.12",
     "omil": "^1.9.3",
+    "react-redux": "^7.1.3",
     "redux": "^4.0.4"
   }
 }
